@@ -11,7 +11,7 @@ import {
 import { AppBar, Box, Tab, Tabs } from "@mui/material";
 import { FC, useCallback, useState } from "react";
 
-const OptionPanel: FC<OptionPanelProps> = ({ handleFunctions }) => {
+const OptionPanel: FC<OptionPanelProps> = ({}) => {
   const [panelIndex, setPanelIndex] = useState(0);
 
   const handleChangePanel: HandleChangePanel = useCallback(
@@ -42,23 +42,14 @@ const OptionPanel: FC<OptionPanelProps> = ({ handleFunctions }) => {
         if (panel.fetchedProps && panel.fetchFunction)
           panelprops = { ...panelprops, ...panel.fetchFunction() };
         const Panel = panel.comp;
-        const panelHandleFunctions = panel.handleFunctionsName?.reduce(
-          (handleFunc, funcName) => ({
-            ...handleFunc,
-            [funcName]: handleFunctions[funcName],
-          }),
-          {}
-        );
+
         return (
           <CustomPanel
             key={key}
             activePanelIndex={panelIndex}
             panelIndex={index}
           >
-            <Panel
-              {...panelprops}
-              handlePanelFunctions={panelHandleFunctions}
-            />
+            <Panel {...panelprops} />
           </CustomPanel>
         );
       })}

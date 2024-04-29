@@ -48,11 +48,15 @@ interface LayoutPanelProps {
 interface LayoutBoxProps {
   layout: LayoutDefinitionProps;
   itemLayout: ({ ...itemLayoutProps }: any) => ReactNode;
-  itemLayoutProps: any;
+  itemLayoutProps?: ({...params}:any)=>any;
 }
 
 interface OptionPanelProps {
-  handleFunctions: PanelHandleFunctions;
+  
+}
+
+interface ToolSelectorProps {
+  itemProps: any
 }
 
 export type {
@@ -66,4 +70,5 @@ export type {
   LayoutBoxProps,
   LayoutDefinitionProps,
   OptionPanelProps,
+  ToolSelectorProps
 };

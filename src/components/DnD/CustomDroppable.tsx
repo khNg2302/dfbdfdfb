@@ -1,18 +1,26 @@
 import { CustomDroppableProps } from "@/types/components/DnD/custom-droppable";
 import { Box } from "@mui/material";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useDrop } from "react-dnd";
 
 const CustomDroppable: FC<CustomDroppableProps> = ({
   accept,
   isDisplayed,
   handleDrop,
+  label,
+  handleDragOver,
 }) => {
-  const [, drop] = useDrop(() => ({
+  const [{ isDragOver }, drop] = useDrop(() => ({
     accept,
-    drop: handleDrop,
-    collect: (monitor) => ({}),
+    drop: (item, monitor) => handleDrop({ item, monitor }),
+    collect: (monitor) => ({
+      isDragOver: monitor.isOver(),
+    }),
   }));
+
+  const overEffect = () => {
+    return handleDragOver ? handleDragOver(isDragOver) : {};
+  };
   return (
     <>
       {isDisplayed && (
@@ -23,8 +31,9 @@ const CustomDroppable: FC<CustomDroppableProps> = ({
           justifyContent="center"
           alignItems="center"
           border="1px dashed grey"
+          {...overEffect()}
         >
-          Drop here
+          {label ? label : "Drop here"}
         </Box>
       )}
     </>

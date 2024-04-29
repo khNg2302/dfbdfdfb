@@ -1,28 +1,49 @@
 import CustomDroppable from "@/components/DnD/CustomDroppable";
 import { DnDReportTypes } from "@/consts/features/custom-report/functions/option-panel";
 import { EditReportItemsProps } from "@/types/features/custom-report/functions/edit-report";
-import { FC, memo, useCallback } from "react";
-import LayoutBox from "../option-panel/LayoutBox";
-import CellEditReportItem from "./CellEditReportItem";
+import { FC, memo } from "react";
 import RowItem from "./RowItem";
-import { LayoutDefinitionProps } from "@/types/features/custom-report/functions/option-panel";
+import {
+  HandleDragOver,
+  HandleDrop,
+} from "@/types/components/DnD/custom-droppable";
 
-const EditReportItems: FC<EditReportItemsProps> = ({ reportDocument }) => {
-  const handleDrop = useCallback((item: LayoutDefinitionProps) => {
-    // console.log(item);
-  }, []);
+const EditReportItems: FC<EditReportItemsProps> = ({
+  reportDocument,
+  changeReportDocumentFuncs,
+  handleChangeReportDocument
+}) => {
+
+  
+  const handleDrop: HandleDrop = ({ item, monitor }) => {
+    changeReportDocumentFuncs.handleAddRowReport({ item, monitor });
+  };
+
+  const handleDragOver: HandleDragOver = (isDragOver) => {
+    if (!isDragOver)
+      return {
+        sx: { opacity: reportDocument.length ? 0 : 1 },
+      };
+    return {
+      bgcolor: "#EADFB4",
+      border: "1px solid #EADFB4",
+      sx: { opacity: 1 },
+    };
+  };
+
   return (
     <div>
-      {reportDocument.map((row) => (
-        <RowItem key={row.uuid} row={row} />
+      {reportDocument.map((row, index) => (
+        <RowItem key={row.uuid} index={index} row={row} handleChangeReportDocument={handleChangeReportDocument} />
       ))}
-      <div className=" px-20">
-        <CustomDroppable
-          isDisplayed
-          accept={DnDReportTypes.layout}
-          handleDrop={handleDrop}
-        />
-      </div>
+
+      <CustomDroppable
+        isDisplayed
+        accept={[DnDReportTypes.layout]}
+        handleDrop={handleDrop}
+        handleDragOver={handleDragOver}
+        label="Drop layout here"
+      />
     </div>
   );
 };

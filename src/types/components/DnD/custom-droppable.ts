@@ -1,10 +1,22 @@
 import { ReactNode } from "react";
 import { DropTargetMonitor } from "react-dnd";
 
+type HandleDrop = ({
+  item,
+  monitor,
+}: {
+  item: any;
+  monitor: DropTargetMonitor<unknown, unknown>;
+}) => void;
+
+type HandleDragOver = (isDragOver:boolean) => any
+
 interface CustomDroppableProps {
-  accept: string;
+  accept: string[];
   isDisplayed: boolean;
-  handleDrop: (item: any, minitor: DropTargetMonitor<unknown, unknown>) => void;
+  handleDrop: HandleDrop;
+  handleDragOver?: HandleDragOver
+  label?:string
 }
 
-export type { CustomDroppableProps };
+export type { CustomDroppableProps, HandleDrop, HandleDragOver };

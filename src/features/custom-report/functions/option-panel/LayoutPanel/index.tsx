@@ -21,13 +21,12 @@ const LayoutPanel: FC<LayoutPanelProps> = ({
             type={type}
             key={key}
             itemProps={layoutProps}
-            handleDragEnd={handlePanelFunctions.handleAddRowReport}
+     
           >
             <div className="flex gap-1 p-2 shadow-md">
               <LayoutBox
                 layout={{ key, type, ...layoutProps }}
                 itemLayout={TemplateColumn}
-                itemLayoutProps={{}}
               />
             </div>
           </CustomDraggable>

@@ -1,5 +1,6 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
 import { LayoutDefinitionProps } from "./option-panel";
+import { HandleDrop } from "@/types/components/DnD/custom-droppable";
 
 type DefinitionReport = {
   name: string;
@@ -18,24 +19,45 @@ interface ReportActionsProps {
 type ReportDocumentColumn = {
   uuid: string;
   layout: LayoutDefinitionProps;
-  itemDefinition: any;
+  itemDefinitions: any[];
 };
+
+type HandleChangeReportDocument = Dispatch<
+  SetStateAction<ReportDocumentColumn[]>
+>;
 
 interface EditReportItemsProps {
   reportDocument: ReportDocumentColumn[];
+  handleChangeReportDocument: HandleChangeReportDocument;
+  changeReportDocumentFuncs: {
+    [funcName: string]: ({ ...params }?: any) => void;
+  };
 }
 type HandleChangeDefinitionReportProps = (e: ChangeEvent<any>) => void;
 
 interface CellEditReportItemProps {
-  itemDefinition:any
+  itemDefinition: any;
+  indexTemplate: number;
+  indexRow: number;
+  handleChangeReportDocument: HandleChangeReportDocument;
+  handleChangeRow: () => any;
 }
 
 interface ReportItemsRow {
+  index: number;
   row: ReportDocumentColumn;
+  handleChangeReportDocument: HandleChangeReportDocument;
 }
 
-interface EditReportProps {
-  reportDocument: ReportDocumentColumn[];
+interface EditReportProps {}
+
+interface EdittedItemPanelProps {
+  handleChangeItem: ({ ...params }: any) => any;
+}
+
+interface EdittedItemProps {
+  children: ({ onOpen }: any) => ReactNode;
+  handleChangeItem: ({...changeProps}:any) => any;
 }
 
 export type {
@@ -47,5 +69,7 @@ export type {
   ReportDocumentColumn,
   CellEditReportItemProps,
   ReportItemsRow,
-  EditReportProps
+  EditReportProps,
+  EdittedItemPanelProps,
+  EdittedItemProps,
 };

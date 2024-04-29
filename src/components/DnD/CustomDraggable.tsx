@@ -7,15 +7,15 @@ const CustomDraggable: FC<CustomDraggableProps> = ({
   type,
   itemProps,
   children,
-  handleDragEnd,
+
 }) => {
   const [, drag] = useDrag(() => ({
     type,
     item: { ...itemProps },
-    end: (item, monitor) => handleDragEnd({ item, monitor }),
+    // end: (item, monitor) => handleDragEnd({ item, monitor }),
     collect: (monitor) => ({}),
   }));
-  return <Box ref={drag}>{children}</Box>;
+  return <Box ref={drag} width='full'>{children}</Box>;
 };
 
 export default CustomDraggable;
